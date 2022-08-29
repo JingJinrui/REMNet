@@ -2,8 +2,20 @@ import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 import xlwt
 import numpy as np
+from torch import nn
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+
+def ini_model_params(model, ini_params_mode):
+    for m in model.modules():
+        if isinstance(m, (nn.Conv2d, nn.Conv3d, nn.ConvTranspose2d, nn.Linear)):
+            if ini_params_mode == 'xavier':
+                nn.init.xavier_normal_(m.weight)
+            elif ini_params_mode == 'orthogonal':
+                nn.init.orthogonal_(m.weight)
+            if m.bias is not None:
+                nn.init.constant_(m.bias, 0.0)
 
 
 def img_seq_summary(img_seq, global_step, name_scope, writer):
@@ -12,7 +24,7 @@ def img_seq_summary(img_seq, global_step, name_scope, writer):
         writer.add_images(name_scope + '/Img' + str(i + 1), img_seq[i], global_step)
 
 
-def save_test_results(log_dir, pod, far, csi, bias, hss, ssim=None):
+def save_test_results(log_dir, pod, far, csi, ssim=None):
     test_results_path = os.path.join(log_dir, 'test_results.xls')
     work_book = xlwt.Workbook(encoding='utf-8')
     sheet = work_book.add_sheet('sheet')
@@ -25,12 +37,6 @@ def save_test_results(log_dir, pod, far, csi, bias, hss, ssim=None):
     sheet.write(2, 0, 'csi')
     for col, label in enumerate(csi.tolist()):
         sheet.write(2, 1 + col, str(label))
-    sheet.write(3, 0, 'bias')
-    for col, label in enumerate(bias.tolist()):
-        sheet.write(3, 1 + col, str(label))
-    sheet.write(4, 0, 'hss')
-    for col, label in enumerate(hss.tolist()):
-        sheet.write(4, 1 + col, str(label))
     if ssim is not None:
         sheet.write(5, 0, 'ssim')
         for col, label in enumerate(ssim.tolist()):
@@ -38,7 +44,7 @@ def save_test_results(log_dir, pod, far, csi, bias, hss, ssim=None):
     work_book.save(test_results_path)
 
 
-def save_test_imgs(log_dir, index, input, ground_truth, output, dataset='HKO_7', save_mode='integral'):
+def save_test_samples_imgs(log_dir, index, input, ground_truth, output, dataset='HKO_7', save_mode='integral'):
     if dataset == 'HKO_7':
         input = 70.0 * input - 10.0
         output = 70.0 * output - 10.0

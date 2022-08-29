@@ -1,12 +1,7 @@
 import math
 import random
 import torch as t
-from torch import nn
 import torch.nn.functional as F
-
-
-def crossentropy_loss(output, ground_truth):
-    return t.mean(- ground_truth * t.log(t.clamp(output, 1e-14, 1.0)))
 
 
 def weighted_l1_loss(output, ground_truth, dataset='HKO_7'):
@@ -39,21 +34,6 @@ def perceptual_similarity_loss(output, ground_truth, encoder, randomly_sampling=
         output_feature = encoder(output)
         ground_truth_feature = encoder(ground_truth)
     return t.mean(t.pow(t.abs(output_feature - ground_truth_feature), 2.0))
-
-
-def sobel_edge_detection_loss(output, ground_truth, use_gpu=True):
-    kernel = [[-1.0, -1.0, -1.0], [-1.0, 8.0, -1.0], [-1.0, -1.0, -1.0]]
-    kernel = t.tensor(kernel).unsqueeze(0).unsqueeze(0)
-    weight = nn.Parameter(data=kernel, requires_grad=False)
-    if use_gpu:
-        weight = weight.cuda()
-
-    out_seq_len, batch_size, channels, height, width = output.size()
-    output = output.reshape(out_seq_len * batch_size, channels, height, width)
-    ground_truth = ground_truth.reshape(out_seq_len * batch_size, channels, height, width)
-    output = F.conv2d(output, weight, padding=1)
-    ground_truth = F.conv2d(ground_truth, weight, padding=1)
-    return t.mean(t.pow(t.abs(output - ground_truth), 2.0))
 
 
 def seq_d_hinge_adversarial_loss(input, output, ground_truth, seq_d):
