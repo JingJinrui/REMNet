@@ -6,7 +6,7 @@ from torchvision import transforms as T
 
 
 class HKO_7(Dataset):
-    def __init__(self, root, seq_len, seq_interval=5, transforms=None, train=True, test=False, nonzero_points_threshold=None):
+    def __init__(self, root, seq_len=35, seq_interval=5, transforms=None, train=True, test=False, nonzero_points_threshold=None):
         self.root = root
         self.train = train
         self.test = test
