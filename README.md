@@ -36,6 +36,8 @@ We have provided serveral test samples in <code>test_samples</code> folder, you 
 
 If you only want to test the model on test samples, not on test set quantitatively, please test with <code>test_samples_only=True</code>.
 
+![case1_extrapolation](https://github.com/JingJinrui/REMNet/tree/main/figures/case1_extrapolation.gif)
+
 ## Citation
 When using any parts of the Project or the Paper in your work, please cite the following paper:
 <pre><code>@InProceedings{Jing_2022_IEEE TGRS, 
