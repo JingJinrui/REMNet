@@ -58,8 +58,8 @@ class Shanghai_2020(Dataset):
 
 class Shanghai_2020_samples(Dataset):
     def __init__(self, root, transforms=None):
-        test_samples = os.listdir(root)
-        self.test_samples_path = [os.path.join(root, test_sample) for test_sample in test_samples]
+        self.test_samples = os.listdir(root)
+        self.test_samples_path = [os.path.join(root, test_sample) for test_sample in self.test_samples]
 
         if transforms is None:
             self.transforms = T.Compose([T.ToTensor()])
