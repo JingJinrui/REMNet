@@ -3,6 +3,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 import xlwt
 import numpy as np
 from torch import nn
+from PIL import Image
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -44,7 +45,22 @@ def save_test_results(log_dir, pod, far, csi, ssim=None):
     work_book.save(test_results_path)
 
 
-def save_test_samples_imgs(log_dir, index, input, ground_truth, output, dataset='HKO_7', save_mode='integral'):
+def save_test_imgs(log_dir, save_folder, output, dataset='HKO_7'):
+    if not os.path.exists(os.path.join(log_dir, save_folder)):
+        os.makedirs(os.path.join(log_dir, save_folder))
+        out_seq_len = output.size()[0]
+        for i in range(out_seq_len):
+            img = output[i].squeeze().cpu().numpy()
+            img = np.array(img * 255).astype(np.uint8)
+            if dataset is 'HKO_7':
+                img = Image.fromarray(img).resize((480, 480))
+            elif dataset is 'Shanghai_2020':
+                img = Image.fromarray(img).resize((460, 460))
+            save_img_path = os.path.join(log_dir, save_folder, 'output' + str(i + 1) + '.png')
+            img.save(save_img_path)
+
+
+def save_test_samples_imgs(log_dir, save_folder, input, ground_truth, output, dataset='HKO_7', save_mode='integral'):
     if dataset == 'HKO_7':
         input = 70.0 * input - 10.0
         output = 70.0 * output - 10.0
@@ -63,12 +79,12 @@ def save_test_samples_imgs(log_dir, index, input, ground_truth, output, dataset=
     cmp = mpl.colors.ListedColormap(['white', 'lightskyblue', 'cyan', 'lightgreen', 'limegreen', 'green',
                                      'yellow', 'orange', 'chocolate', 'red', 'firebrick', 'darkred', 'fuchsia',
                                      'purple'], 'indexed')
-    if not os.path.exists(os.path.join(log_dir, 'sample' + str(index + 1))):
-        os.makedirs(os.path.join(log_dir, 'sample' + str(index + 1)))
+    if not os.path.exists(os.path.join(log_dir, save_folder)):
+        os.makedirs(os.path.join(log_dir, save_folder))
     for i in range(input_seq_len):
         img = input[i].squeeze().cpu().numpy()
         plt.contourf(x, y, img, levels=levels, extend='both', cmap=cmp)
-        save_fig_path = os.path.join(log_dir, 'sample' + str(index + 1), 'input' + str(i + 1))
+        save_fig_path = os.path.join(log_dir, save_folder, 'input' + str(i + 1))
         if save_mode == 'simple':
             plt.xticks([])
             plt.yticks([])
@@ -82,7 +98,7 @@ def save_test_samples_imgs(log_dir, index, input, ground_truth, output, dataset=
     for i in range(out_seq_len):
         img = output[i].squeeze().cpu().numpy()
         plt.contourf(x, y, img, levels=levels, extend='both', cmap=cmp)
-        save_fig_path = os.path.join(log_dir, 'sample' + str(index + 1), 'output' + str(i + 1))
+        save_fig_path = os.path.join(log_dir, save_folder, 'output' + str(i + 1))
         if save_mode == 'simple':
             plt.xticks([])
             plt.yticks([])
@@ -96,7 +112,7 @@ def save_test_samples_imgs(log_dir, index, input, ground_truth, output, dataset=
     for i in range(out_seq_len):
         img = ground_truth[i].squeeze().cpu().numpy()
         plt.contourf(x, y, img, levels=levels, extend='both', cmap=cmp)
-        save_fig_path = os.path.join(log_dir, 'sample' + str(index + 1), 'ground_truth' + str(i + 1))
+        save_fig_path = os.path.join(log_dir, save_folder, 'ground_truth' + str(i + 1))
         if save_mode == 'simple':
             plt.xticks([])
             plt.yticks([])
