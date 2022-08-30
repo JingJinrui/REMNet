@@ -37,7 +37,8 @@ def test(test_samples_only=True, dBZ_threshold=10, eval_ssim=False):
                 input = input.to(device)
                 ground_truth = ground_truth.to(device)
             output = model(input)
-            utils.save_test_samples_imgs(test_results_save_dir, iter, input, ground_truth, output, config.dataset,
+            utils.save_test_samples_imgs(test_results_save_dir, test_samples_dataset.test_samples[iter], input,
+                                         ground_truth, output, config.dataset,
                                          save_mode='integral')
 
     if not test_samples_only:
