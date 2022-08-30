@@ -2,6 +2,7 @@ from .utils import ini_model_params
 from .utils import img_seq_summary
 from .utils import save_test_results
 from .utils import save_test_samples_imgs
+from .utils import save_test_imgs
 from .evaluation import crosstab_evaluate
 from .evaluation import calculate_ssim
 from .evaluation import valid
