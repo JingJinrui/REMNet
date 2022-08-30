@@ -61,8 +61,8 @@ class HKO_7(Dataset):
 class HKO_7_samples(Dataset):
     def __init__(self, root, transforms=None):
         self.root = root
-        test_samples = os.listdir(self.root)
-        self.test_samples_path = [os.path.join(self.root, test_sample) for test_sample in test_samples]
+        self.test_samples = os.listdir(self.root)
+        self.test_samples_path = [os.path.join(self.root, test_sample) for test_sample in self.test_samples]
 
         if transforms is None:
             self.transforms = T.Compose([T.ToTensor()])
