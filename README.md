@@ -1,7 +1,7 @@
 # REMNet: Recurrent Evolution Memory-Aware Network for Accurate Long-Term Weather Radar Echo Extrapolation
 The official PyTorch implementation of [REMNet](https://ieeexplore.ieee.org/document/9856702?source=authoralert) (IEEE TGRS, 2022).
 
-Authors: [Jinrui Jing](https://www.researchgate.net/profile/Jinrui-Jing), [Qian Li](https://www.researchgate.net/profile/Qian-Li-192), [Leiming Ma](https://www.researchgate.net/profile/Lei-Ming-Ma), Lei Chen, Lei Ding
+Authors: [Jinrui Jing](https://www.researchgate.net/profile/Jinrui-Jing), [Qian Li](https://www.researchgate.net/profile/Qian-Li-192), [Leiming Ma](https://www.researchgate.net/profile/Lei-Ming-Ma), Lei Chen, [Lei Ding](https://www.researchgate.net/profile/Lei-Ding-26)
 
 ## Paper Abstract
 Weather radar echo extrapolation, which predicts future echoes based on historical observations, is one of the complicated spatial–temporal sequence prediction tasks and plays a prominent role in severe convection and precipitation nowcasting. However, existing extrapolation methods mainly focus on a defective echo-motion extrapolation paradigm based on finite observational dynamics, neglecting that the actual echo sequence has a more complicated evolution process that contains both nonlinear motions and the lifecycle from initiation to decay, resulting in poor prediction precision and limited application ability. To complement this paradigm, we propose to incorporate a novel long-term evolution regularity memory (LERM) module into the network, which can memorize long-term echo-evolution regularities during training and be recalled for guiding extrapolation. Moreover, to resolve the blurry prediction problem and improve forecast accuracy, we also adopt a coarse–fine hierarchical extrapolation strategy and compositive loss function. We separate the extrapolation task into coarse and fine two levels which can reduce the downsampling loss and retain echo fine details. Except for the average reconstruction loss, we additionally employ adversarial loss and perceptual similarity loss to further improve the visual quality. Experimental results from two real radar echo datasets demonstrate the effectiveness of our methodology and show that it can accurately extrapolate the echo evolution while ensuring the echo details are realistic enough, even for the long term. Our method can further be improved in the future by integrating multimodal radar variables or introducing certain domain prior knowledge of physical mechanisms. It can also be applied to other spatial–temporal sequence prediction tasks, such as the prediction of satellite cloud images and wind field figures.
@@ -10,7 +10,7 @@ Weather radar echo extrapolation, which predicts future echoes based on historic
 1. PyTorch >= 1.6.0
 2. Anaconda, cuda, and cudnn are recommended
 3. Other required python libraries: PIL, torchvision, tensorboard, skimage, tqdm, xlwt, matplotlib
-4. Preparing the two radar echo datasets: [HKO-7](https://github.com/sxjscience/HKO-7), Shanghai-2020 (to be public in the future)
+4. Preparing the two radar echo datasets: [HKO-7](https://github.com/sxjscience/HKO-7), [Shanghai-2020](https://doi.org/10.5281/zenodo.7251972)
 5. Set the right dataset root in <code>configs.py</code>
 6. Python run the <code>HKO_7_preprocessing.py</code> and <code>Shanghai_2020_preprocessing.py</code> script in the <code>./datasets</code> folder to preprocess the two datasets before training
 
