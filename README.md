@@ -30,7 +30,7 @@ To test the pretrained model on test set and samples, you can run
 <pre><code>$ python test_hko_7.py</code></pre>
 <pre><code>$ python test_shanghai_2020.py</code></pre>
 
-Our pretrained model can be downloaded from link [HKO-7](https://k00.fr/txupa972) and [Shanghai-2020](https://k00.fr/vs6ydb8q), please put them into the <code>checkpoints</code> folder to test.
+Our pretrained model can be downloaded from link [HKO-7](https://k00.fr/ji3nlvjy) and [Shanghai-2020](https://k00.fr/py2vkihw), please put them into the <code>checkpoints</code> folder to test.
 
 We have provided serveral test samples in <code>test_samples</code> folder, you can also add yours following the same pattern. The test results will be saved in <code>test_results</code> folder.
 
